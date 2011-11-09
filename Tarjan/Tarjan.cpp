@@ -6,7 +6,6 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <n
 
 using namespace std;
 
@@ -30,14 +29,12 @@ int _tmain(int argc, _TCHAR* argv[]){
 	numEdges = atoi(line.c_str());
 	vector<Node *> nodesList;
 	nodesList.resize(numNodes);
-	if(nodesList.at(1)==NULL)
-		cout<<"it's empty!"<<endl;
-	/**
 	while(graphFile.good()){
 		getline(graphFile, line, ' ');
 		getline(graphFile, line1, ' ');
+		cout<<line+" "+line1<<endl;
 		node1 = atoi(line.c_str());
 		node2 = atoi(line1.c_str());
-	} */
+	} 
 }
 
