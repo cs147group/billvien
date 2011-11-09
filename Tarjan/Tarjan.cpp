@@ -23,45 +23,16 @@ struct Node{
 
 void explore(bitset<200> & exploredBitset, vector<Node *> & nodesList, vector<Node *> & finishingTimesVector, int i);
 vector<Node *> findFinishingTimes(vector<Node *> nodesList);
+vector<Node *> readInFile();
+vector<Node *> reverseList(vector<Node *> & nodesFinishingTimesList);
 
 
 int _tmain(int argc, _TCHAR* argv[]){
-	ifstream graphFile("example.txt");
-	string line;
-	string line1;
-	int node1;
-	int node2;
-	getline(graphFile, line);
-	numNodes = atoi(line.c_str());
-	getline(graphFile, line);
-	numEdges = atoi(line.c_str());
-	vector<Node *> nodesList;
-	nodesList.resize(numNodes);
-	for(int i = 0; i < nodesList.size(); i++){
-		Node * newNode = new Node;
-		newNode->id = i+1;
-		newNode->adjacentNodes = new vector<Node *>;
-		nodesList[i] = newNode;
-	}
-	while(graphFile.good()){
-		getline(graphFile, line, ' ');
-		getline(graphFile, line1, '\n');
-		node1 = atoi(line.c_str());
-		node2 = atoi(line1.c_str());
-		cout << node1 << " " << node2 << endl;
-		(*(nodesList[node2 - 1]->adjacentNodes)).push_back(nodesList[node1 - 1]);
-	} 
-
-	for(int i=0; i<numNodes; i++){
-		int numAdjNodes = (*(nodesList[i]->adjacentNodes)).size();
-		cout << "NODE: " << i + 1 << endl;
-		for(int j=0; j < numAdjNodes; j++){
-			cout << "Adjacent Nodes: " << (((*(nodesList[i]->adjacentNodes))[j])->id) << endl;
-		}
-	}
 	cout << endl << endl << endl;
-
+	vector<Node *> nodesList = readInFile();
 	vector<Node *> nodesFinishingTimeList = findFinishingTimes(nodesList);
+	vector<Node *> reverseList = reverseVector(nodesFinishingTimeList);
+	return 0;
 }
 
 vector<Node *> findFinishingTimes(vector<Node *> nodesList){
@@ -97,6 +68,52 @@ void explore(bitset<200> & exploredBitset, vector<Node *> & nodesList, vector<No
 			myStack.pop(); //pops it off the stack if it has no outlets
 			finishingTimesVector.push_back(currentNode);//adds it to the new finishing times vector
 		}
+	}
+}
+
+vector<Node *> readInFile(){
+ifstream graphFile("example.txt");
+	string line;
+	string line1;
+	int node1;
+	int node2;
+	getline(graphFile, line);
+	numNodes = atoi(line.c_str());
+	getline(graphFile, line);
+	numEdges = atoi(line.c_str());
+	vector<Node *> nodesList;
+	nodesList.resize(numNodes);
+	for(int i = 0; i < nodesList.size(); i++){
+		Node * newNode = new Node;
+		newNode->id = i+1;
+		newNode->adjacentNodes = new vector<Node *>;
+		nodesList[i] = newNode;
+	}
+	while(graphFile.good()){
+		getline(graphFile, line, ' ');
+		getline(graphFile, line1, '\n');
+		node1 = atoi(line.c_str());
+		node2 = atoi(line1.c_str());
+		cout << node1 << " " << node2 << endl;
+		(*(nodesList[node2 - 1]->adjacentNodes)).push_back(nodesList[node1 - 1]);
+	} 
+
+	for(int i=0; i<numNodes; i++){
+		int numAdjNodes = (*(nodesList[i]->adjacentNodes)).size();
+		cout << "NODE: " << i + 1 << endl;
+		for(int j=0; j < numAdjNodes; j++){
+			cout << "Adjacent Nodes: " << (((*(nodesList[i]->adjacentNodes))[j])->id) << endl;
+		}
+	}
+	return nodesList;
+}
+vector<Node *> reverseList(vector<Node *> & nodesFinishingTimesList){
+	vector<Node *> reverseList;
+	reverseList.resize(nodesFinishingTimesList.size());
+	for(int i = 0; i < nodesFinishingTimesList.size(); i++){
+		Node * newNode = new Node;
+		newNode->id = nodesFinishingTimesList[i]->id;
+		
 	}
 }
 
